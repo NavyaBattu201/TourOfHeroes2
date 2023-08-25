@@ -1,39 +1,39 @@
 {
   "heros": [
     {
-      "name": "Achille",
+      "name": "Thors",
       "id": 1
     },
     {
-      "name": "Hectors ",
+      "name": "wandas",
       "id": 2
     },
     {
-      "name": "Percy Jackson",
+      "name": "Black Widow",
       "id": 3
     },
     {
-      "name": "Paris",
+      "name": "Ant Man",
       "id": 4
     },
     {
-      "name": "Hermes",
+      "name": "Hulk  ",
       "id": 5
     },
     {
-      "name": "Annabeth",
+      "name": "Captain America",
       "id": 6
     },
     {
-      "name": "Atemis",
+      "name": "Hawk Eye",
       "id": 7
     },
     {
-      "name": "thor",
+      "name": "Black panther",
       "id": 8
     },
     {
-      "name": "Heather",
+      "name": "Captain marvel",
       "id": 9
     }
   ]

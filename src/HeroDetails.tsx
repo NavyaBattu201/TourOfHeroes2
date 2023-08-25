@@ -1,39 +1,60 @@
-import { useParams, useHistory } from "react-router-dom";
-import { useState,useEffect, SetStateAction} from "react";
-import useFetch2 from "./useFetch2";
-const HeroDetails :React.FC= () => {
-    const { id } = useParams<{ id: string }>();
-    const history = useHistory();
-    const {info, isPending, error } = useFetch2('http://localhost:8000/heros/' + id);
+import { useState,useEffect} from "react";
+import axios,{ AxiosError, CancelTokenSource } from "axios";
+import { Hero } from './HeroesListprops';
+interface HeroDetailsProps {
+  id: string;
+}
+const HeroDetails :React.FC<HeroDetailsProps>= ({id}):JSX.Element => {
+    console.log(id); 
+    const [info, setInfo] = useState<Hero>();
+    const [isPending, setIsPending] = useState(true);
+    const [error, setError] = useState<string | null | undefined>(undefined);
+    useEffect(() => {
+        const fetchData = async () => {
+          const source: CancelTokenSource = axios.CancelToken.source();
+    
+          try {
+            const response = await axios.get('http://localhost:8000/heros/' + id, { cancelToken: source.token });
+            setInfo(response.data);
+            setIsPending(false);
+            setError(null);
+          } catch (err) {
+            if (axios.isCancel(err)) {
+                console.log('Request canceled:', (err as AxiosError).message);
+              } else if(err) {
+                setError((err as AxiosError).message);
+                setIsPending(false);
+              }
+          }
+        };
+    
+        fetchData();
+    
+      }, [id, setError]);
+
+
+
     const [heroName, setHeroName] = useState<string>("");
     useEffect(() => {
         if(info){
             setHeroName(info.name);
         }
     }
-    , [info]);
-
-    const updateHeroName = async (newName: any) => {
-        try {
-            const response = await fetch(`http://localhost:8000/heros/` + id, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name: newName }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update hero name');
-            } 
-        } catch (error) {
-            console.error(error);
-        }
-    };
-    const handleInputChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-        setHeroName(e.target.value);
-        updateHeroName(e.target.value);
-    };
+    , [info]); 
+  const updateHeroName = async (name: string) => {
+    try {
+      const response = await axios.patch(`http://localhost:8000/heros/` + id, {
+        name: name
+      });
+      if (response.data) {
+        console.log("Hero name updated successfully");
+      } else {
+        throw new Error("Failed to update hero name");
+      }     
+    } catch (error) {
+      console.error(error);
+    }
+  };
     return (
         <div>
             {isPending && <div>loading...</div>}
@@ -47,16 +68,16 @@ const HeroDetails :React.FC= () => {
                             <label>Hero name:</label>
                             <input
                                 type="text"
-                                // placeholder={info.name}
                                 value={heroName}
-                                onChange={handleInputChange}
+                                onChange={(e)=>{setHeroName(e.target.value);
+                                    updateHeroName(e.target.value as string);}}
                             />
                         </form>
                     </div>
                     <br />
                     <button
                         className="button"
-                        onClick={() => history.go(-1)}>
+                        onClick={() => window.history.back()}>
                         Back</button>
                 </div>
             )}

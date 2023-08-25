@@ -1,7 +1,7 @@
 import HeroesList from './HeroesList';
 import useFetch from './useFetch';
 
-const HeroesSection = () => {
+const HeroesSection = (): JSX.Element => {
     const {info,isPending,error}=useFetch('http://localhost:8000/heros')
     return (
         <div className="herosection">

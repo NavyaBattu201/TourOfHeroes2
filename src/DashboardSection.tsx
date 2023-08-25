@@ -1,6 +1,6 @@
 import HeroesList from './HeroesList';
 import useFetch from './useFetch';
-const DashboardSection:React.FC = () => {
+const DashboardSection:React.FC = ():JSX.Element => {
     const {info,isPending,error}=useFetch('http://localhost:8000/heros')
     const firstFourHeroes= info? info.slice(0, 4) : []; 
     return (

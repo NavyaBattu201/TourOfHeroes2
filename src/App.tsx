@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'wouter';
 import Navbar from './Navbar';
 import DashboardSection from './DashboardSection';
 import HeroesSection from './HeroesSection';
@@ -11,14 +10,14 @@ function App() {
       <Navbar />
       <div className="content">
         <Switch>
-          <Route exact path='/'>
+          <Route  path='/'>
             <DashboardSection />
           </Route>
-          <Route exact path='/hero-section'>
+          <Route  path='/hero-section'>
            <HeroesSection />
           </Route>
-          <Route exact path='/hero/:id'>
-           <HeroDetails />
+          <Route  path='/hero/:id'>
+           {(params) => <HeroDetails id={params.id} />}
           </Route>
         </Switch>
       </div>

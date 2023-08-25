@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-const Navbar = () => {
+import { Link } from 'wouter';
+const Navbar = ():JSX.Element => {
     return (
         <div>
             <nav className="navbar">
